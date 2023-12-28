@@ -6,14 +6,15 @@ export const renderProfile = async (req, res) => {
     let { name } = req.params;
     console.log(name);
     if (name) {
-        let data = [
-            {name: name},
-            {live: 'seoul'},
-            {age: 99},
-            {level: "top"},
-        ];
+        let data = {
+            id: name,
+            pw: "123123",
+            addr: "seoul",
+            level: "junior",
+            amount: 30
+        };
 
-        res.send(data)
+        res.json(data)
     } else {
         res.send('그런건 없다');
     }
