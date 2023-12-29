@@ -1,5 +1,4 @@
 const { Seller } = require('../models');
-const { Op } = require('sequelize');
 
 exports.getSeller = async (req, res) => {
     if (req.params.id) {
