@@ -1,13 +1,15 @@
 const express = require('express');
-const { renderDefault, getItems, getItemsPage } = require("../controllers/page.js");
+const { getDefault, getItems } = require("../controllers/page.js");
 const { getSeller } = require('../controllers/seller.js');
 const router = express.Router();
 
-// 상품 정보
-router.get('/', renderDefault);
-router.get('items/', getItems);
-router.get('/items/:id', getItems);
 
+//기본 페이지
+router.get('/', getDefault);
+
+
+// 상품 정보
+router.get('/items/:id?', getItems);
 
 
 //판매자 정보
