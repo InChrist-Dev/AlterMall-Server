@@ -10,7 +10,7 @@ exports.getItems = async (req, res) => {
     
     if (req.params.id) { // id값에 해당하는 상품 정보 전송
         const result = await Items.findOne({
-            attribute: ['item_name', 'price', 'amount', 'seller_id', 'isSelling'],
+            attributes: ['item_name', 'price', 'amount', 'seller_id', 'isSelling'],
             where: {
                 item_id: req.params.id
             }
