@@ -44,7 +44,8 @@ class Order extends Sequelize.Model{
     }
 
     static associate(db) {
-        
+        db.Order.belongsTo(db.Customer, { foreignKey: 'customer_id', targetKey: 'id'});
+        db.Order.belongsToMany(db.Items, {through:'OrderDetail'});
     }
 
 };

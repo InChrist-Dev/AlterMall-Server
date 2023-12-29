@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 class Seller extends Sequelize.Model{
     static initiate(sequelize) {
         Seller.init({
-            seller_id: {
+            id: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
                 unique: true,
@@ -11,22 +11,21 @@ class Seller extends Sequelize.Model{
             name: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                unique: true,
             },
             email: {
                 type: Sequelize.String(100),
-                allowNull: false,
+                allowNull: true,
             },
             phone: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
+                type: Sequelize.STRING(20),
+                allowNull: true,
             },
             addr: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING(300),
                 allowNull: false,
             },
             company_num: {
-                type: Sequelize.BOOLEAN,
+                type: Sequelize.STRING(100),
                 allowNull: false,
             }
         }, {
@@ -42,7 +41,8 @@ class Seller extends Sequelize.Model{
     }
 
     static associate(db) {
-        
+        db.Seller.hasMany(db.Items, { foreignKey: 'seller_id', sourceKey: 'id'} );
+        db.Seller.hasOne(db.SellerDetail, { foreignKey: 'id', sourceKey: 'id' } );
     }
 
 };

@@ -29,7 +29,7 @@ class SellerDetail extends Sequelize.Model{
     }
 
     static associate(db) {
-        
+        db.SellerDetail.hasOne(db.Seller, { foreignKey: 'id', targetKey: 'id' });
     }
 
 };

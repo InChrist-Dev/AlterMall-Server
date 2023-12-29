@@ -21,6 +21,7 @@ class ItemCategory extends Sequelize.Model{
     }
 
     static associate(db) {
+        db.ItemCategory.belongsToMany(db.Items, { through: 'ItemDetail' });
         
     }
 

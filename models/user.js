@@ -40,7 +40,7 @@ class Customer extends Sequelize.Model{
     }
 
     static associate(db) {
-
+        db.Customer.hasMany(db.Order, { foreignKey: 'customer_id', sourceKey: 'id'});
     }
 
 };

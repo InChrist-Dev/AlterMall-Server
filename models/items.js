@@ -8,11 +8,6 @@ class Items extends Sequelize.Model{
                 allowNull: false,
                 unique: true,
             },
-            seller_id: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                unique: true,
-            },
             item_name: {
                 type: Sequelize.String(100),
                 allowNull: false,
@@ -42,7 +37,9 @@ class Items extends Sequelize.Model{
     }
 
     static associate(db) {
-        
+        db.Items.belongsToMany(db.Order, { through: 'OrderDetail' });
+        db.Items.belongsToMany(db.ItemCategoty, { through: ItemDetail });
+        db.Items.belongsTo(db.Seller, { foreignKey: 'seller_id', targetKey: 'id' });
     }
 
 };
