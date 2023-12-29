@@ -1,51 +1,45 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 class Order extends Sequelize.Model{
     static initiate(sequelize) {
         Order.init({
             order_id: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.INTEGER,
                 allowNull: false,
-                unique: true,
+                primaryKey: true,
             },
             price: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                unique: true,
-            },
-            order_date: {
-                type: Sequelize.DATE,
-                allowNull: true,
-                unique: true,
             },
             addr: {
                 type: Sequelize.STRING(100),
-                allowNull: true,
+                allowNull: false,
             },
             addr_detail: {
                 type: Sequelize.STRING(100),
-                allowNull: false,
+                allowNull: true,
             },
             requests: {
                 type: Sequelize.STRING(100),
                 allowNull: true,
-            }
+            },
         }, {
             sequelize,
-            timestampts: true,
+            timestamps: true,
             underscored: false,
             paranoid: false,
             modelName: "Order",
             tableName: "order",
             charset: "utf8",
-            clooate: "utf8_general_ci",
+            collate: "utf8_general_ci",
 
         });
     }
 
     static associate(db) {
         db.Order.belongsTo(db.Customer, { foreignKey: 'customer_id', targetKey: 'id'});
-        db.Order.belongsToMany(db.Items, {through:'OrderDetail'});
+        db.Order.belongsToMany(db.Items, { through:'OrderDetail' });
     }
 
 };

@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 class Seller extends Sequelize.Model{
     static initiate(sequelize) {
@@ -7,13 +7,14 @@ class Seller extends Sequelize.Model{
                 type: Sequelize.STRING(100),
                 allowNull: false,
                 unique: true,
+                primaryKey: true,
             },
             name: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING(100),
                 allowNull: false,
             },
             email: {
-                type: Sequelize.String(100),
+                type: Sequelize.STRING(100),
                 allowNull: true,
             },
             phone: {
@@ -30,13 +31,13 @@ class Seller extends Sequelize.Model{
             }
         }, {
             sequelize,
-            timestampts: true,
+            timestamps: true,
             underscored: false,
             paranoid: false,
-            modelName: "Items",
-            tableName: "items",
+            modelName: "Seller",
+            tableName: "seller",
             charset: "utf8",
-            clooate: "utf8_general_ci",
+            collate: "utf8_general_ci",
         });
     }
 

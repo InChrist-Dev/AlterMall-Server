@@ -1,11 +1,16 @@
-import express from 'express';
-import { renderDefault, getItems, getItemsPage } from "../controllers/page.js";
-
+const express = require('express');
+const { renderDefault, getItems, getItemsPage } = require("../controllers/page.js");
+const { getSeller } = require('../controllers/seller.js');
 const router = express.Router();
 
+// 상품 정보
 router.get('/', renderDefault);
 router.get('items/', getItems);
 router.get('/items/:id', getItems);
-// router.get('/items?:p', getItems);
 
-export const pageRouter = router;
+
+
+//판매자 정보
+router.get('/seller/:id?', getSeller);
+
+module.exports = router;

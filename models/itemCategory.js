@@ -1,28 +1,27 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 class ItemCategory extends Sequelize.Model{
     static initiate(sequelize) {
         ItemCategory.init({
             category_name: {
                 type: Sequelize.STRING(100),
-                allowNull: false,
-                unique: true,
+                primaryKey:true,
             },
         }, {
             sequelize,
-            timestampts: true,
+            timestamps: true,
             underscored: false,
             paranoid: false,
             modelName: "ItemCategory",
-            tableName: "itemcategoty",
+            tableName: "items_category",
             charset: "utf8",
-            clooate: "utf8_general_ci",
+            collate: "utf8_general_ci",
         });
     }
 
     static associate(db) {
         db.ItemCategory.belongsToMany(db.Items, { through: 'ItemDetail' });
-        
+
     }
 
 };

@@ -1,17 +1,25 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
-import path from 'path';
-import session from 'express-session';
-import nunjucks from 'nunjucks';
-import dotenv from 'dotenv';
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
+const session = require('express-session');
+const nunjucks = require('nunjucks');
+const dotenv = require('dotenv');
 
 dotenv.config();
-import { pageRouter } from './routes/mainroute.js';
+const pageRouter = require('./routes/mainroute.js');
+const { sequelize } = require('./models');
 
 const app = express();
 app.set('port', process.env.PORT || 8000);
-app.set('view engine', 'html');
+
+sequelize.sync({ force: false })
+    .then(() => {
+        console.log('DB 연결 성공')
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
 nunjucks.configure('views', {
     express: app,
     watch: true,

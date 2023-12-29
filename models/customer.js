@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 class Customer extends Sequelize.Model{
     static initiate(sequelize) {
@@ -6,7 +6,7 @@ class Customer extends Sequelize.Model{
             id: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
-                unique: true,
+                primaryKey:true
             },
             name: {
                 type: Sequelize.STRING(100),
@@ -28,13 +28,13 @@ class Customer extends Sequelize.Model{
             },
         }, {
             sequelize,
-            timestampts: true,
+            timestamps: true,
             underscored: false,
             paranoid: false,
             modelName: "Customer",
             tableName: "customer",
             charset: "utf8",
-            clooate: "utf8_general_ci",
+            collate: "utf8_general_ci",
 
         });
     }
@@ -45,4 +45,4 @@ class Customer extends Sequelize.Model{
 
 };
 
-module.exports = Customer
+module.exports = Customer;

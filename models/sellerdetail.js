@@ -1,12 +1,12 @@
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
 
 class SellerDetail extends Sequelize.Model{
     static initiate(sequelize) {
         SellerDetail.init({
-            seller_id: {
+            id: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
-                unique: true,
+                primaryKey: true,
             },
             img_src: {
                 type: Sequelize.STRING(600),
@@ -18,18 +18,18 @@ class SellerDetail extends Sequelize.Model{
             },
         }, {
             sequelize,
-            timestampts: true,
+            timestamps: true,
             underscored: false,
             paranoid: false,
-            modelName: "Items",
-            tableName: "items",
+            modelName: "SellerDetail",
+            tableName: "seller_detail",
             charset: "utf8",
-            clooate: "utf8_general_ci",
+            collate: "utf8_general_ci",
         });
     }
 
     static associate(db) {
-        db.SellerDetail.hasOne(db.Seller, { foreignKey: 'id', targetKey: 'id' });
+        db.SellerDetail.hasOne(db.Seller, { foreignKey: 'id', targetKey: 'id'});
     }
 
 };
