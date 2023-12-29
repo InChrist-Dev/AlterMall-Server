@@ -4,12 +4,15 @@ const morgan = require('morgan');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const { swaggerUi, specs } = require("./swagger/swagger")
+
 
 dotenv.config();
 const pageRouter = require('./routes/mainroute.js');
 const { sequelize } = require('./models');
 
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
 app.set('port', process.env.PORT || 8000);
 
 sequelize.sync({ force: false })
