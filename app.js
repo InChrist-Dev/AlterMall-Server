@@ -7,7 +7,7 @@ import nunjucks from 'nunjucks';
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { pageRouter } from './routes/testroute.js';
+import { pageRouter } from './routes/mainroute.js';
 
 const app = express();
 app.set('port', process.env.PORT || 8000);
@@ -18,7 +18,6 @@ nunjucks.configure('views', {
 });
 
 app.use(morgan('dev'));
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
