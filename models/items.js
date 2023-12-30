@@ -6,6 +6,7 @@ class Items extends Sequelize.Model{
             item_id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
+                autoIncrement:true,
             },
             item_name: {
                 type: Sequelize.STRING(100),
@@ -15,7 +16,7 @@ class Items extends Sequelize.Model{
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
-            amount: {
+            stock: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },

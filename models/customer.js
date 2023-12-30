@@ -11,12 +11,10 @@ class Customer extends Sequelize.Model{
             name: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
-                unique: true,
             },
             email: {
                 type: Sequelize.STRING(100),
                 allowNull: true,
-                unique: true,
             },
             phone: {
                 type: Sequelize.STRING(100),
@@ -25,6 +23,7 @@ class Customer extends Sequelize.Model{
             class: {
                 type: Sequelize.STRING(100),
                 allowNull: false,
+                defaultValue: "normal",
             },
         }, {
             sequelize,

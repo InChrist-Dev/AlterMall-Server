@@ -5,20 +5,22 @@ class Order extends Sequelize.Model{
         Order.init({
             order_id: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
                 primaryKey: true,
+                autoIncrement: true,
             },
             price: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
             addr: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(300),
                 allowNull: false,
             },
             addr_detail: {
-                type: Sequelize.STRING(100),
-                allowNull: true,
+                type: Sequelize.STRING(300),
+            },
+            post:{
+                type: Sequelize.STRING(20),
             },
             requests: {
                 type: Sequelize.STRING(100),
