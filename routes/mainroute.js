@@ -1,5 +1,5 @@
 const express = require('express');
-const { getDefault, getCategory, postCategory, deleteCategory } = require("../controllers/category.js");
+const { getDefault, getCategory, postCategory, deleteCategory, updateCategory} = require("../controllers/category.js");
 const { getSeller } = require('../controllers/seller.js');
 const router = express.Router();
 
@@ -104,7 +104,41 @@ router.post('/category/post/', postCategory);
  *         204:
  *           description: 상품 삭제 성공
  */
-router.delete('/category/delete/:id?', deleteCategory)
+router.delete('/category/delete/:id?', deleteCategory);
+/**
+ * @swagger
+ *  /category/patch/{item_id}:
+ *     patch:
+ *       tags:
+ *         - 상품
+ *       description: 상품을 등록함
+ *       produces:
+ *         - application/json
+ *       requestBody:
+ *         description: 상품 아이디와 json형태의 수정 정보 입력
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 item_name:
+ *                   type: string
+ *                 price:
+ *                   type: string
+ *                 seller_id:
+ *                   type: string
+ *                 isSelling:
+ *                   type: boolean
+ *                 stock:
+ *                   type: number
+ *                 img:
+ *                   type: string
+ *       responses:
+ *         200:
+ *           description: 상품 수정 성공
+ */
+router.patch('/category/patch/:id?', updateCategory);
 
 //판매자 정보
 /**

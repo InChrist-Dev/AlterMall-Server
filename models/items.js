@@ -45,7 +45,6 @@ class Items extends Sequelize.Model{
         db.Items.belongsToMany(db.ItemTag, { through: 'ItemDetail' });
         db.Items.belongsTo(db.Seller, { foreignKey: 'seller_id', targetKey: 'id' });
     }
-
 };
 
 module.exports = Items;

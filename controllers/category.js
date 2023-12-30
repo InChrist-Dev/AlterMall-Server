@@ -7,7 +7,8 @@ exports.getDefault  = async (req, res) => {
     res.send('default');
 };
 
-/** 상품정보를 불러와준다
+/** GET 
+ * 상품정보를 불러와준다
  * @params: {UUID} req.params.id - 상품 고유 ID
 */
 exports.getCategory = async (req, res) => {
@@ -50,7 +51,8 @@ exports.getCategory = async (req, res) => {
 };
 
 
-/**상품을 등록해준다
+/** POST
+ * 상품을 등록해준다
  * 판매할 상품의 정보를 json 형태 body로 보내어주면 이를 Items 테이블에 등록한다.
  * @params {JSON} req.body - 등록 할 상품 정보
  */
@@ -83,11 +85,12 @@ exports.postCategory = async(req, res) => {
         });
 };
 
-/**
+/** DELETE
  * 상품의 id를 입력하면 삭제하여준다
  * @param {UUID} req.params.id
  */
 exports.deleteCategory = async(req, res) => {
+    
     const deleteItem = await Items.findOne({
         where: {
             item_id: req.params.id || null,
@@ -102,13 +105,52 @@ exports.deleteCategory = async(req, res) => {
     })
         .then((deletedItem) => {
             if (deletedItem === 0) {
-                res.status(404).send("Item not found");
+                res.status(404).send({ success: false, message: 'Item Not Found' });
             } else {
-                res.status(204).send("Delete success");
+                res.status(201).send({ success: true, message: `Item deleted` });
             }
         })
         .catch((error) => {
             console.error('Error deleting item:', error);
             res.status(500).send('Failed to delete item');
         });
+};
+
+/** PATCH
+ * 상품정보를 수정하여줌
+ * @param {JSON} req.body 
+ * @returns 
+ */
+exports.updateCategory = async(req, res) => {
+    const updateItem = await Items.findOne({
+        where: {
+            item_id: req.params.id || null,
+        }
+    });
+
+    if(!updateItem){
+        return res.status(404).json({ exists: false, message: 'Item Not Found' });
+    };
+
+    Items.update({
+        item_name: req.body.item_name || updateItem.item_name,
+        price: req.body.price || updateItem.price,
+        isSelling: req.body.isSelling ?? updateItem.isSelling ?? false,
+        stock: req.body.stock || updateItem.stock,
+        img: req.body.img || updateItem.img
+    }, {
+        where: { item_id: req.params.id || null },
+    })
+        .then((updatedItem) => {
+            if (updatedItem === 0) {
+                res.status(404).send({ success: false, message: 'Item Not Found' });
+            } else {
+                res.status(200).send({ success: true, message: `${updateItem.id} updated` });
+            }
+        })
+        .catch((error) => {
+            console.error('Error update item:', error);
+            res.status(500).send('Failed to update item');
+        });
+
 };
