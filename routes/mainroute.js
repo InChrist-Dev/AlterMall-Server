@@ -1,5 +1,5 @@
 const express = require('express');
-const { getDefault, getCategory, postCategory } = require("../controllers/category.js");
+const { getDefault, getCategory, postCategory, deleteCategory } = require("../controllers/category.js");
 const { getSeller } = require('../controllers/seller.js');
 const router = express.Router();
 
@@ -86,6 +86,8 @@ router.get('/category/:id?', getCategory);
  *           description: 상품 등록 성공
  */
 router.post('/category/post/', postCategory);
+
+router.delete('/category/delete/:id?', deleteCategory)
 
 //판매자 정보
 /**

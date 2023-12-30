@@ -10,14 +10,19 @@ exports.getDefault  = async (req, res) => {
 exports.getCategory = async (req, res) => {
     
     if (req.params.id) { // id값에 해당하는 상품 정보 전송
-        const result = await Items.findOne({
-            attributes: ['item_name', 'price', 'stock', 'seller_id', 'isSelling', 'img'],
-            where: {
-                item_id: req.params.id
-            }
-        })
-        
-        res.send(result);
+        try {
+            const result = await Items.findOne({
+                attributes: ['item_name', 'price', 'stock', 'seller_id', 'isSelling', 'img'],
+                where: {
+                    item_id: req.params.id
+                }
+            });
+
+            res.send(result);
+        } catch (error) {
+            console.error('Error fetching item:', error);
+            res.status(500).send('Fail to get Item');
+        }
     } else { // id값 없으면 페이지네이션으로 전체 상품 검색
         try {
             const page = req.query.p || 1;
@@ -31,15 +36,11 @@ exports.getCategory = async (req, res) => {
 
             const totalItemCount = await Items.count();
             const totalPages = Math.ceil(totalItemCount / ITEMS_PER_PAGE);
+            res.status(200).json({ data: { items, totalPages } });
 
-            res.json({
-                status: 200,
-                items,
-                totalPages,
-            });
         } catch(error) {
             console.error(error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).send('Fail to get Items');
         }
         
     }
@@ -52,7 +53,7 @@ exports.postCategory = async(req, res) => {
         }
     });
     console.log(`검색결과: ${seller}`);
-    
+
     if(!seller){
         return res.status(404).json({ exists: false, message: 'Seller Not Found' });
     }
@@ -70,6 +71,32 @@ exports.postCategory = async(req, res) => {
         })
         .catch((error) => {
             console.error('Error creating item:', error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).send('Fail to create Item');
+        });
+};
+
+exports.deleteCategory = async(req, res) => {
+    const deleteItem = await Items.findOne({
+        where: {
+            item_id: req.params.id || null,
+        }
+    });
+
+    if(!deleteItem){
+        return res.status(404).json({ exists: false, message: 'Item Not Found' });
+    }
+    Items.destroy({
+        where: { item_id: req.params.id || null },
+    })
+        .then((deletedItem) => {
+            if (deletedItem === 0) {
+                res.status(404).send("Item not found");
+            } else {
+                res.status(204).send("Delete success");
+            }
+        })
+        .catch((error) => {
+            console.error('Error deleting item:', error);
+            res.status(500).send('Failed to delete item');
         });
 };
