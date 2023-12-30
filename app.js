@@ -27,7 +27,7 @@ nunjucks.configure('views', {
     express: app,
     watch: true,
 });
-
+// app.use('/testIMG', express.static('testIMG'))
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

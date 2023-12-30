@@ -23,6 +23,9 @@ class Items extends Sequelize.Model{
             isSelling: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
+            },
+            img:{
+                type: Sequelize.STRING(600),
             }
         }, {
             sequelize,

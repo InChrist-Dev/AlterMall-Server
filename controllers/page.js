@@ -10,11 +10,12 @@ exports.getItems = async (req, res) => {
     
     if (req.params.id) { // id값에 해당하는 상품 정보 전송
         const result = await Items.findOne({
-            attributes: ['item_name', 'price', 'amount', 'seller_id', 'isSelling'],
+            attributes: ['item_name', 'price', 'stock', 'seller_id', 'isSelling', 'img'],
             where: {
                 item_id: req.params.id
             }
         })
+        
         res.send(result);
     } else { // id값 없으면 페이지네이션으로 전체 상품 검색
         try {
