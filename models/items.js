@@ -4,9 +4,10 @@ class Items extends Sequelize.Model{
     static initiate(sequelize) {
         Items.init({
             item_id: {
-                type: Sequelize.INTEGER,
+                allowNull: false,
                 primaryKey: true,
-                autoIncrement:true,
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV1,
             },
             item_name: {
                 type: Sequelize.STRING(100),

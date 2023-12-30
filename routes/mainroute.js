@@ -86,7 +86,24 @@ router.get('/category/:id?', getCategory);
  *           description: 상품 등록 성공
  */
 router.post('/category/post/', postCategory);
-
+/**
+ * @swagger
+ *  /category/post/delete/{item_id}:
+ *     delete:
+ *       tags:
+ *         - 상품
+ *       description: 상품을 삭제함
+ *       parameters:
+ *        - in: path
+ *          name: item_id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            description: 상품 고유 아이디
+ *       responses:
+ *         204:
+ *           description: 상품 삭제 성공
+ */
 router.delete('/category/delete/:id?', deleteCategory)
 
 //판매자 정보

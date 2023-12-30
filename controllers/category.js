@@ -7,6 +7,9 @@ exports.getDefault  = async (req, res) => {
     res.send('default');
 };
 
+/** 상품정보를 불러와준다
+ * @params: {UUID} req.params.id - 상품 고유 ID
+*/
 exports.getCategory = async (req, res) => {
     
     if (req.params.id) { // id값에 해당하는 상품 정보 전송
@@ -46,6 +49,11 @@ exports.getCategory = async (req, res) => {
     }
 };
 
+
+/**상품을 등록해준다
+ * 판매할 상품의 정보를 json 형태 body로 보내어주면 이를 Items 테이블에 등록한다.
+ * @params {JSON} req.body - 등록 할 상품 정보
+ */
 exports.postCategory = async(req, res) => {
     const seller = await Seller.findOne({
         where: {
@@ -75,6 +83,10 @@ exports.postCategory = async(req, res) => {
         });
 };
 
+/**
+ * 상품의 id를 입력하면 삭제하여준다
+ * @param {UUID} req.params.id
+ */
 exports.deleteCategory = async(req, res) => {
     const deleteItem = await Items.findOne({
         where: {
