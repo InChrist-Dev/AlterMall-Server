@@ -41,7 +41,7 @@ class Items extends Sequelize.Model{
 
     static associate(db) {
         db.Items.belongsToMany(db.Order, { through: 'OrderDetail' });
-        db.Items.belongsToMany(db.ItemCategory, { through: 'ItemDetail' });
+        db.Items.belongsToMany(db.ItemTag, { through: 'ItemDetail' });
         db.Items.belongsTo(db.Seller, { foreignKey: 'seller_id', targetKey: 'id' });
     }
 

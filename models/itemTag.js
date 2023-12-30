@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
 
-class ItemCategory extends Sequelize.Model{
+class ItemTag extends Sequelize.Model{
     static initiate(sequelize) {
-        ItemCategory.init({
-            category_name: {
+        ItemTag.init({
+            tag: {
                 type: Sequelize.STRING(100),
                 primaryKey:true,
             },
@@ -12,18 +12,17 @@ class ItemCategory extends Sequelize.Model{
             timestamps: true,
             underscored: false,
             paranoid: false,
-            modelName: "ItemCategory",
-            tableName: "items_category",
+            modelName: "ItemTag",
+            tableName: "item_tag",
             charset: "utf8",
             collate: "utf8_general_ci",
         });
     }
 
     static associate(db) {
-        db.ItemCategory.belongsToMany(db.Items, { through: 'ItemDetail' });
-
+        db.ItemTag.belongsToMany(db.Items, { through: 'ItemDetail' });
     }
 
 };
 
-module.exports = ItemCategory;
+module.exports = ItemTag;

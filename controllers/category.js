@@ -1,12 +1,12 @@
 const { Items } = require('../models');
 
+const ITEMS_PER_PAGE = 10;
+
 exports.getDefault  = async (req, res) => {
     res.send('default');
 };
 
-const ITEMS_PER_PAGE = 10;
-
-exports.getItems = async (req, res) => {
+exports.getCategory = async (req, res) => {
     
     if (req.params.id) { // id값에 해당하는 상품 정보 전송
         const result = await Items.findOne({
@@ -41,4 +41,9 @@ exports.getItems = async (req, res) => {
         }
         
     }
+};
+
+exports.postCategory = async(req, res) => {
+    console.log(req.body)
+    res.send("good");
 };

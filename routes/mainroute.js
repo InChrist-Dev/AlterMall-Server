@@ -1,18 +1,16 @@
 const express = require('express');
-const { getDefault, getItems } = require("../controllers/page.js");
+const { getDefault, getCategory, postCategory } = require("../controllers/category.js");
 const { getSeller } = require('../controllers/seller.js');
 const router = express.Router();
 
-
 //기본 페이지
-
 router.get('/', getDefault);
 
 
 // 상품 정보
 /**
  * @swagger
- *  /items?p=page:
+ *  /category?p=page:
  *    get:
  *      tags:
  *      - 상품
@@ -33,7 +31,7 @@ router.get('/', getDefault);
 
 /**
  * @swagger
- *  /items/{itemId}:
+ *  /category/{itemId}:
  *    get:
  *      tags:
  *      - 상품
@@ -51,8 +49,43 @@ router.get('/', getDefault);
  *       200:
  *        description: 상품 정보 검색 성공
  */
-router.get('/items/:id?', getItems);
-
+router.get('/category/:id?', getCategory);
+/**
+ * @swagger
+ *  /category/post:
+ *     post:
+ *       tags:
+ *         - 상품
+ *       description: 상품을 등록함
+ *       produces:
+ *         - application/json
+ *       requestBody:
+ *         description: 판매자 정보와 상품 정보를 입력
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 item_name:
+ *                   type: string
+ *                 price:
+ *                   type: string
+ *                 seller_id:
+ *                   type: number
+ *                 stock:
+ *                   type: number
+ *                 img:
+ *                   type: string
+ *               required:
+ *                 - item_name
+ *                 - price
+ *                 - stock
+ *       responses:
+ *         200:
+ *           description: 상품 등록 성공
+ */
+router.post('/category/post/', postCategory);
 
 //판매자 정보
 /**
@@ -76,5 +109,10 @@ router.get('/items/:id?', getItems);
  *        description: 판매자 정보 검색 성공
  */
 router.get('/seller/:id?', getSeller);
+
+//Not Found
+router.use((req, res) => {
+    res.status(404).send('Not Found');
+});
 
 module.exports = router;
