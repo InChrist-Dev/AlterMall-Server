@@ -72,7 +72,7 @@ router.get('/category/:id?', getCategory);
  *                 price:
  *                   type: string
  *                 seller_id:
- *                   type: number
+ *                   type: string
  *                 stock:
  *                   type: number
  *                 img:

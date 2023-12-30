@@ -1,4 +1,5 @@
 const { Items } = require('../models');
+const { Seller } = require('../models');
 
 const ITEMS_PER_PAGE = 10;
 
@@ -32,6 +33,7 @@ exports.getCategory = async (req, res) => {
             const totalPages = Math.ceil(totalItemCount / ITEMS_PER_PAGE);
 
             res.json({
+                status: 200,
                 items,
                 totalPages,
             });
@@ -44,6 +46,30 @@ exports.getCategory = async (req, res) => {
 };
 
 exports.postCategory = async(req, res) => {
-    console.log(req.body)
-    res.send("good");
+    const seller = await Seller.findOne({
+        where: {
+            id: req.body.seller_id
+        }
+    });
+    console.log(`검색결과: ${seller}`);
+    
+    if(!seller){
+        return res.status(404).json({ exists: false, message: 'Seller Not Found' });
+    }
+    
+    Items.create({
+        item_name: req.body.item_name,
+        price: req.body.price,
+        seller_id: req.body.seller_id,
+        stock: req.body.stock,
+        isSelling: true,
+        img: req.body.img,
+    })
+        .then((createdItem) => {
+            res.status(201).json(createdItem);
+        })
+        .catch((error) => {
+            console.error('Error creating item:', error);
+            res.status(500).send('Internal Server Error');
+        });
 };
