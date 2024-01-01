@@ -1,33 +1,30 @@
 const Sequelize = require("sequelize");
 
-class Board extends Sequelize.Model{
+class Comment extends Sequelize.Model{
     static initiate(sequelize) {
-        Board.init({
-            id:{
+        Comment.init({
+            writer_id:{
                 primaryKey:true,
                 type:Sequelize.UUID,
                 defaultValue:Sequelize.UUIDV4,
             },
-            title: {
+            id: {
                 type: Sequelize.STRING(50),
                 allowNull: false,
+                onUpdate:'CASCADE',
+                onDelete:'CASCADE'
             },
             content: {
                 type: Sequelize.TEXT,
                 allowNull: false
             },
-            writer_id:{
-                type: Sequelize.UUID,
-                onDelete:'SET NULL',
-                onUpdate:'CASCADE'
-            }
         }, {
             sequelize,
             timestamps: true,
             underscored: false,
             paranoid: false,
-            modelName: "Board",
-            tableName: "board",
+            modelName: "Comment",
+            tableName: "comment",
             charset: "utf8",
             collate: "utf8_general_ci",
 
@@ -35,12 +32,12 @@ class Board extends Sequelize.Model{
     }
 
     static associate(db) {
-        db.Board.belongsTo(db.User, {
-            foreignKey: 'writer_id',
+        db.Comment.belongsTo(db.Board, {
+            foreignKey: 'id',
             sourceKey:'id',
         })
     }
 
 };
 
-module.exports = Board;
+module.exports = Comment;
