@@ -4,9 +4,10 @@ class SellerDetail extends Sequelize.Model{
     static initiate(sequelize) {
         SellerDetail.init({
             id: {
-                type: Sequelize.STRING(100),
-                allowNull: false,
+                type: Sequelize.UUID,
                 primaryKey: true,
+                onDelete:'CASCADE',
+                onUpdate:'CASCADE'
             },
             img_src: {
                 type: Sequelize.STRING(600),

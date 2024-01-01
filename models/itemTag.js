@@ -20,7 +20,13 @@ class ItemTag extends Sequelize.Model{
     }
 
     static associate(db) {
-        db.ItemTag.belongsToMany(db.Items, { through: 'ItemDetail' });
+        db.ItemTag.belongsToMany(db.Items, { 
+            through: 'ItemDetail',
+            sourceKey: 'tag',
+            foreignKey:'tag',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        });
     }
 
 };

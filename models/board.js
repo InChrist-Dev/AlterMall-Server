@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 
-class Customer extends Sequelize.Model{
+class Board extends Sequelize.Model{
     static initiate(sequelize) {
-        Customer.init({
+        Board.init({
             id:{
                 primaryKey:true,
                 type:Sequelize.UUID,
@@ -28,17 +28,9 @@ class Customer extends Sequelize.Model{
     }
 
     static associate(db) {
-        db.Customer.hasMany(db.Order, { foreignKey: 'customer_id', sourceKey: 'id'});
-        db.Customer.belongsTo(db.User, { foreignKey: 'id', targetKey: 'id' });
-        db.Customer.belongsToMany(db.Items, {
-            foreignKey:'customer_id',
-            sourceKey:'id',
-            through:'wish',
-            onDelete:'CASCADE',
-            onUpdate:'CASCADE'
-        })
+        
     }
 
 };
 
-module.exports = Customer;
+module.exports = Board;

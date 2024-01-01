@@ -1,5 +1,8 @@
 const Sequelize = require("sequelize");
 
+/**
+ * @todo init안에 SET NULL, CASCADE 구현해야함
+ */
 class Order extends Sequelize.Model{
     static initiate(sequelize) {
         Order.init({
@@ -26,6 +29,21 @@ class Order extends Sequelize.Model{
                 type: Sequelize.STRING(100),
                 allowNull: true,
             },
+            state:{
+                type: Sequelize.STRING(100),
+                allowNull: false,
+                defaultValue: "wait"
+            },
+            customer_id:{
+                type:Sequelize.UUID,
+                onUpdate:"CASCADE",
+                onDelete:'SET NULL'
+            },
+            item_id:{
+                type:Sequelize.UUID,
+                onUpdate:'CASCADE',
+                onDelete:'SET NULL',
+            }
         }, {
             sequelize,
             timestamps: true,
@@ -40,8 +58,15 @@ class Order extends Sequelize.Model{
     }
 
     static associate(db) {
-        db.Order.belongsTo(db.Customer, { foreignKey: 'customer_id', targetKey: 'id'});
-        db.Order.belongsToMany(db.Items, { through:'OrderDetail' });
+        db.Order.belongsTo(db.Customer, { 
+            foreignKey: 'customer_id', 
+            targetKey: 'id',
+        });
+
+        db.Order.belongsTo(db.Items, { 
+            foreignKey: 'item_id', 
+            targetKey: "item_id",
+        });
     }
 
 };

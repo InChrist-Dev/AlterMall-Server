@@ -3,23 +3,11 @@ const Sequelize = require("sequelize");
 class Seller extends Sequelize.Model{
     static initiate(sequelize) {
         Seller.init({
-            id: {
-                type: Sequelize.STRING(100),
-                allowNull: false,
-                unique: true,
-                primaryKey: true,
-            },
-            name: {
-                type: Sequelize.STRING(100),
-                allowNull: false,
-            },
-            email: {
-                type: Sequelize.STRING(100),
-                allowNull: true,
-            },
-            phone: {
-                type: Sequelize.STRING(20),
-                allowNull: true,
+            id:{
+                primaryKey:true,
+                type:Sequelize.UUID,
+                onDelete:'CASCADE',
+                onUpdate:'CASCADE'
             },
             addr: {
                 type: Sequelize.STRING(300),
@@ -31,7 +19,7 @@ class Seller extends Sequelize.Model{
             }
         }, {
             sequelize,
-            timestamps: true,
+            timestamps: false,
             underscored: false,
             paranoid: false,
             modelName: "Seller",
@@ -42,6 +30,8 @@ class Seller extends Sequelize.Model{
     }
 
     static associate(db) {
+        db.Seller.belongsTo(db.User, { foreignKey:'id', targetKey:'id' });
+
         db.Seller.hasMany(db.Items, { foreignKey: 'seller_id', sourceKey: 'id'} );
         db.Seller.hasOne(db.SellerDetail, { foreignKey: 'id', sourceKey: 'id' } );
     }

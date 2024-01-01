@@ -7,7 +7,7 @@ class Items extends Sequelize.Model{
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.UUID,
-                defaultValue: Sequelize.UUIDV1,
+                defaultValue: Sequelize.UUIDV4,
             },
             item_name: {
                 type: Sequelize.STRING(100),
@@ -27,6 +27,11 @@ class Items extends Sequelize.Model{
             },
             img:{
                 type: Sequelize.STRING(600),
+            },
+            seller_id:{
+                type:Sequelize.UUID,
+                onUpdate:'CASCADE',
+                onDelete:'SET NULL'
             }
         }, {
             sequelize,
@@ -41,9 +46,30 @@ class Items extends Sequelize.Model{
     }
 
     static associate(db) {
-        db.Items.belongsToMany(db.Order, { through: 'OrderDetail' });
-        db.Items.belongsToMany(db.ItemTag, { through: 'ItemDetail' });
+        db.Items.hasMany(db.Order, { foreignKey: 'item_id', sourceKey: 'item_id' });
+
+        db.Items.belongsToMany(db.ItemTag, { 
+            through: 'item_detail',
+            sourceKey: 'item_id',
+            foreignKey:'item_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        });
+
+        db.Items.belongsToMany(db.Customer, { 
+            through: 'wish',
+            sourceKey: 'item_id',
+            foreignKey:'item_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        });
+
         db.Items.belongsTo(db.Seller, { foreignKey: 'seller_id', targetKey: 'id' });
+
+        db.Items.hasMany(db.Cart, {
+            foreignKey:'item_id',
+            sourceKey:'item_id'
+        })
     }
 };
 
