@@ -15,7 +15,7 @@ const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
 app.set('port', process.env.PORT || 8000);
 
-sequelize.sync({force: true })
+sequelize.sync({force: false })
     .then(() => {
         console.log('DB 연결 성공')
     })

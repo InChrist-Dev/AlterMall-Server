@@ -2,11 +2,6 @@ const { Items } = require('../models');
 const { Seller } = require('../models');
 
 const ITEMS_PER_PAGE = 10;
-
-exports.getDefault  = async (req, res) => {
-    res.send('default');
-};
-
 /** GET 
  * 상품정보를 불러와준다
  * @params: {UUID} req.params.id - 상품 고유 ID

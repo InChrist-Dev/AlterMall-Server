@@ -36,7 +36,12 @@ class Board extends Sequelize.Model{
 
     static associate(db) {
         db.Board.belongsTo(db.User, {
-            foreignKey: 'writer_id',
+            foreignKey:'writer_id',
+            sourceKey:'id',
+        });
+
+        db.Board.hasMany(db.Comment, {
+            foreignKey:'id',
             sourceKey:'id',
         })
     }

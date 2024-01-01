@@ -24,6 +24,10 @@ class User extends Sequelize.Model{
                 type: Sequelize.STRING(600),
                 allowNull: true,
             },
+            position:{
+                type:Sequelize.STRING(100),
+                allowNull:false
+            }
         }, {
             sequelize,
             timestamps: true,

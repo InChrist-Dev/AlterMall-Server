@@ -9,7 +9,7 @@ class Comment extends Sequelize.Model{
                 defaultValue:Sequelize.UUIDV4,
             },
             id: {
-                type: Sequelize.STRING(50),
+                type: Sequelize.UUID,
                 allowNull: false,
                 onUpdate:'CASCADE',
                 onDelete:'CASCADE'
