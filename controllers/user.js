@@ -96,3 +96,38 @@ exports.postUser = async(req, res) => {
             res.status(500).send('Fail to create Item');
         });
 };
+
+/** DELETE
+ * 계정의 id를 입력하면 삭제하여준다
+ * @param {UUID} req.params.id
+ */
+exports.deleteUser = async(req, res) => {
+    
+    try{
+        const deleteUser = await User.findOne({
+            where: {
+                id: req.params.id || null,
+            }
+        });
+        
+        if(!deleteUser){
+            return res.status(404).json({ exists: false, message: 'User Not Found' });
+        }
+
+    } catch (error) {
+        console.error('Error during user retrieval:', error);
+        return res.status(500).send('Failed to retrieve user for deletion');
+    }
+    
+    try{
+        await User.destroy({
+            where: { id: req.params.id},
+        })
+
+        res.status(201).send({ success: true, message: `User deleted` });
+
+    } catch (error){
+        console.error('Error during user retrieval:', error);
+        return res.status(500).send('Failed to deletion');
+    }
+}

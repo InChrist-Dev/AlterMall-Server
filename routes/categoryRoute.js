@@ -95,7 +95,7 @@ categoryRouter.post('/post/', postCategory);
  *            type: integer
  *            description: 상품 고유 아이디
  *       responses:
- *         204:
+ *         201:
  *           description: 상품 삭제 성공
  */
 categoryRouter.delete('/delete/:id?', deleteCategory);

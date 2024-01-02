@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUser, getSeller, getCustomer, postUser } = require("../controllers/user.js");
+const { getUser, getSeller, getCustomer, postUser, deleteUser } = require("../controllers/user.js");
 const userRouter = express.Router();
 
 /**
@@ -106,5 +106,24 @@ userRouter.get('/customer/:id', getCustomer);
  *           description: 상품 등록 성공
  */
 userRouter.post('/join', postUser);
+/**
+ * @swagger
+ *  /user/delete/{userId}}:
+ *     delete:
+ *       tags:
+ *         - 유저
+ *       description: 유저를 삭제함
+ *       parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: UUID
+ *            description: 유저 고유 아이디
+ *       responses:
+ *         201:
+ *           description: 상품 삭제 성공
+ */
+userRouter.delete('/delete/:id', deleteUser);
 
 module.exports = userRouter;
