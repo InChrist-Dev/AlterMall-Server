@@ -2,53 +2,71 @@ const { User } = require('../models');
 const { Seller } = require('../models');
 const { Customer} = require('../models');
 
+/** GET
+ * 계정의 id를 입력하면 유저 공통 정보를 전송한다.
+ * @param {UUID} req.params.id
+ */
 exports.getUser = async (req, res) => {
-    if (req.params.id) {
-        const result = await User.findOne({
-            where: {
-                id: req.params.id,
+    try{
+        if (req.params.id) {
+            const result = await User.findOne({
+                where: {
+                    id: req.params.id,
+                }
+            });
+
+            if (result) {
+                res.status(200).json({exist:true, data: result})
+            } else {
+                res.status(404).json({exist:false, data: "User Not Found"})
             }
-        });
-
-        if (result) {
-            res.status(200).json({exist:true, data: result})
         } else {
-            res.status(404).json({exist:false, data: "User Not Found"})
+            res.status(404).json({exist:false, data:"Need UserID"});
         }
-    } else {
-        res.status(404).json({exist:false, data:"Need UserID"});
+    }catch (error){
+        console.error('Error finding User:', error);
+        return res.status(500).send('Fail to Finding User');
     }
 };
 
+/** GET
+ * 계정의 id를 입력하면 판매자 정보를 전송한다.
+ * @param {UUID} req.params.id
+ */
 exports.getSeller = async (req, res) => {
-    if (req.params.id) {
-        const result = await Seller.findOne({
-            where: {id: req.params.id},
-            include:[{
-                model: User, 
-                as: 'user', 
-                where: { position: 'seller' },
-                required: true
-            }]
+    try{
+        if (req.params.id) {
+            const result = await Seller.findOne({
+                where: {id: req.params.id},
+                include:[{
+                    model: User, 
+                }]
 
-        });
-        if (result) {
-            res.status(200).json({exist:true, data: result})
+            });
+            if (result) {
+                res.status(200).json({exist:true, data: result})
+            } else {
+                res.status(404).json({exist:false, data: "User Not Found"})
+            }
         } else {
-            res.status(404).json({exist:false, data: "User Not Found"})
+            res.status(404).json({exist:false, data:"Need UserID"});
         }
-    } else {
-        res.status(404).json({exist:false, data:"Need UserID"});
+    } catch(error){
+        console.error('Error finding User:', error);
+        res.status(500).send('Fail to Find User');
     }
 };
 
+/** GET
+ * 계정의 id를 입력하면 구매자 정보를 전송한다.
+ * @param {UUID} req.params.id
+ */
 exports.getCustomer = async (req, res) => {
     if (req.params.id) {
         const result = await Customer.findOne({
             where: {id: req.params.id},
             include:[{
                 model: User, 
-                required: true
             }]
 
         });
@@ -92,8 +110,8 @@ exports.postUser = async(req, res) => {
             res.status(201).json(createdItem);
         })
         .catch((error) => {
-            console.error('Error creating item:', error);
-            res.status(500).send('Fail to create Item');
+            console.error('Error creating User:', error);
+            res.status(500).send('Fail to create User');
         });
 };
 
