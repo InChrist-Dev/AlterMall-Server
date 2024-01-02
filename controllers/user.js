@@ -97,6 +97,62 @@ exports.postUser = async(req, res) => {
         });
 };
 
+/** PATCH
+ * 유저정보를 수정하여줌
+ * @param {JSON} req.body 
+ * @returns JSON
+ */
+exports.updateUser = async(req, res) => {
+    try{
+        const updateUser = await User.findOne({
+        where: {
+            id: req.params.id || null,
+        }
+        })
+
+        if(!updateUser){
+            return res.status(404).json({ exists: false, message: 'User Not Found' });
+        };
+
+        try{
+            await User.update({
+                name: req.body.name || updateUser.name,
+                email: req.body.email || updateUser.email,
+                phone: req.body.phone || updateUser.phone,
+                profile: req.body.profile || updateUser.profile,
+            }, {
+                where: { id: req.params.id},
+            })
+    
+            if (updateUser.position === "seller"){
+                try{
+                    await Seller.update({
+                        addr: req.body.addr || updateUser.addr,
+                        company_num: req.body.company_num || updateUser.company_num,
+                    },{
+                        where: {id: req.params.id},
+                    })
+                }catch (error){
+                    console.error('Error update User', error);
+                    return res.status(500).send('Failed to update User');
+                }
+            }else if(updateUser.position === "customer"){
+                //@Todo:구매자 수정사항 생기면 구현
+            }
+
+        } catch(error){
+            console.error('Error update User', error);
+            return res.status(500).send('Failed to update User');
+        }
+
+        res.status(200).json({ success: true, message: `${updateUser.id} updated` });
+    } catch(error) {
+        console.error('Error update User', error);
+        return res.status(500).send('Failed to update User');
+    }
+
+};
+
 /** DELETE
  * 계정의 id를 입력하면 삭제하여준다
  * @param {UUID} req.params.id
@@ -114,20 +170,20 @@ exports.deleteUser = async(req, res) => {
             return res.status(404).json({ exists: false, message: 'User Not Found' });
         }
 
+        try{
+            await User.destroy({
+                where: { id: req.params.id},
+            })
+    
+            res.status(201).send({ success: true, message: `User deleted` });
+    
+        } catch (error){
+            console.error('Error during user retrieval:', error);
+            return res.status(500).send('Failed to deletion');
+        }
     } catch (error) {
         console.error('Error during user retrieval:', error);
         return res.status(500).send('Failed to retrieve user for deletion');
     }
     
-    try{
-        await User.destroy({
-            where: { id: req.params.id},
-        })
-
-        res.status(201).send({ success: true, message: `User deleted` });
-
-    } catch (error){
-        console.error('Error during user retrieval:', error);
-        return res.status(500).send('Failed to deletion');
-    }
 }
