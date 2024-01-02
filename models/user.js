@@ -65,7 +65,7 @@ class User extends Sequelize.Model{
         });
 
         db.User.hasMany(db.Cart, {
-            foreignKey: 'id',
+            foreignKey: 'customer_id',
             sourceKey: 'id',
             onDelete: 'CASCADE',
             onUpdate:'CASCADE'

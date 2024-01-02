@@ -67,8 +67,8 @@ class Items extends Sequelize.Model{
         db.Items.belongsTo(db.Seller, { foreignKey: 'seller_id', targetKey: 'id' });
 
         db.Items.hasMany(db.Cart, {
-            foreignKey:'item_id',
-            sourceKey:'item_id'
+            foreignKey: 'item_id',
+            sourceKey: 'item_id'
         })
     }
 };

@@ -3,9 +3,13 @@ const Sequelize = require("sequelize");
 class Cart extends Sequelize.Model{
     static initiate(sequelize) {
         Cart.init({
+            id:{
+                type:Sequelize.UUID,
+                defaultValue:Sequelize.UUIDV4,
+                primaryKey:true
+            },
             customer_id:{
                 type:Sequelize.UUID,
-                primaryKey: true,
                 allowNull: false,
                 onUpdate:'CASCADE',
                 onDelete:'CASCADE'
@@ -18,7 +22,7 @@ class Cart extends Sequelize.Model{
             amount: {
                 type: Sequelize.INTEGER(100),
                 allowNull: false,
-            },
+            }
         }, {
             sequelize,
             timestamps: true,
@@ -33,10 +37,9 @@ class Cart extends Sequelize.Model{
 
     static associate(db) {
         db.Cart.belongsTo(db.Items, {
-            foreignKey:'item_id',
-            targetKey:'item_id',
+            foreignKey: 'item_id',
+            targetKey: 'item_id'
         });
-
         db.Cart.belongsTo(db.User, {
             foreignKey:'customer_id',
             targetKey:'id',
