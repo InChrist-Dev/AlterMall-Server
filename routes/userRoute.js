@@ -46,7 +46,7 @@ userRouter.get('/:id', getUser);
 userRouter.get('/seller/:id?', getSeller);
 /**
  * @swagger
- *  /user/customer/{sellerId}:
+ *  /user/customer/{customerId}:
  *    get:
  *      tags:
  *      - 유저

@@ -26,7 +26,7 @@ customerRouter.get('/cart/:id', getCart);
 // customerRouter.get('/wish/:id');
 /**
  * @swagger
- *  /user/join:
+ *  /customer/cart/post:
  *     post:
  *       tags:
  *         - 구매자
