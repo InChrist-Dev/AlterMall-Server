@@ -20,9 +20,11 @@ exports.getOrder = async (req, res) => {
                     model:Items,
                 }],
             });
+            const totalItemCount = count;
+            const totalPages = Math.ceil(totalItemCount / ITEMS_PER_PAGE);
 
             if (count) {
-                res.status(200).json({exist:true, data: {rows, count} })
+                res.status(200).json({exist:true, data: {rows, totalPages} })
             } else {
                 res.status(404).json({exist:false, data: "Order Not Found"})
             }
@@ -86,7 +88,7 @@ exports.deleteOrder = async (req, res) => {
             return res.status(404).json({exist:false, data:"order not found!"});
         
         await Order.destroy({
-            where:{ id:req.params.id }
+            where:{ order_id: req.params.id }
         })
 
         res.status(200).json({exist:true, data:`success to delete`})
