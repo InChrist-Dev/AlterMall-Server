@@ -11,10 +11,6 @@ class Order extends Sequelize.Model{
                 primaryKey: true,
                 autoIncrement: true,
             },
-            price: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-            },
             addr: {
                 type: Sequelize.STRING(300),
                 allowNull: false,
@@ -37,12 +33,12 @@ class Order extends Sequelize.Model{
             customer_id:{
                 type:Sequelize.UUID,
                 onUpdate:"CASCADE",
-                onDelete:'SET NULL'
+                onDelete:'NO ACTION'
             },
             item_id:{
                 type:Sequelize.UUID,
                 onUpdate:'CASCADE',
-                onDelete:'SET NULL',
+                onDelete:'NO ACTION',
             }
         }, {
             sequelize,

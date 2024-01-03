@@ -16,7 +16,7 @@ const categoryRouter = express.Router();
  *          name: p
  *          required: false
  *          schema:
- *            type: integer
+ *            type: number
  *            description: 페이지
  *      responses:
  *       200:
