@@ -1,6 +1,16 @@
 const { Items } = require('../models');
 const { Seller } = require('../models');
 
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+
+/**
+ * @type string
+ * 이미지 전송&저장 절대경로
+ */
+const imagePath = '/Users/tasong12/Desktop/AlterMall-Server/upload/imgs/';
+
 /**
  * 페이지네이션 파라미터
  */
@@ -66,6 +76,8 @@ exports.postCategory = async(req, res) => {
     if(!seller){
         return res.status(404).json({ exists: false, message: 'Seller Not Found' });
     }
+    const filePath = path.join(__dirname, '../upload');
+
     
     Items.create({
         item_name: req.body.item_name,
