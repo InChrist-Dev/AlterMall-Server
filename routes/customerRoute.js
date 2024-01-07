@@ -137,7 +137,7 @@ customerRouter.delete('/cart/delete/:id', deleteCart);
 customerRouter.get('/order/:id', getOrder);
 /**
  * @swagger
- *  /customer/order/post:
+ *  /customer/order:
  *     post:
  *       tags:
  *         - 구매자
@@ -173,10 +173,10 @@ customerRouter.get('/order/:id', getOrder);
  *         201:
  *           description: 주문 등록 성공
  */
-customerRouter.post('/order/post', postOrder);
+customerRouter.post('/order', postOrder);
 /**
  * @swagger
- *  /customer/order/patch/{item_id}:
+ *  /customer/order/{item_id}:
  *     patch:
  *       tags:
  *         - 구매자
@@ -205,10 +205,10 @@ customerRouter.post('/order/post', postOrder);
  *         200:
  *           description: 주문 수정 성공
  */
-customerRouter.patch('/order/patch/:id', patchOrder);
+customerRouter.patch('/order/:id', patchOrder);
 /**
  * @swagger
- *  /customer/order/delete/{orderId}:
+ *  /customer/order/{orderId}:
  *     delete:
  *       tags:
  *         - 구매자
@@ -224,7 +224,7 @@ customerRouter.patch('/order/patch/:id', patchOrder);
  *         201:
  *           description: 주문 삭제 성공
  */
-customerRouter.delete('/order/delete/:id', deleteOrder);
+customerRouter.delete('/order/:id', deleteOrder);
 //-주문//
 
 

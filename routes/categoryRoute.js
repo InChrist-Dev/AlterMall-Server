@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { uploadItem } = require('../config/multerConfig.js');
 const {getCategory, postCategory, deleteCategory, updateCategory} = require("../controllers/category.js");
 const categoryRouter = express.Router();
 
@@ -80,7 +80,7 @@ categoryRouter.get('/:id?', getCategory);
  *         201:
  *           description: 상품 등록 성공
  */
-categoryRouter.post('/', upload.single('img'), postCategory);
+categoryRouter.post('/', uploadItem.single('img'), postCategory);
 /**
  * @swagger
  *  /category/{item_id}:

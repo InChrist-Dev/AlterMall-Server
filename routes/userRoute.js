@@ -1,4 +1,5 @@
 const express = require('express');
+const { uploadProfile } = require('../config/multerConfig.js')
 const { getUser, getSeller, getCustomer, postUser, deleteUser, updateUser } = require("../controllers/user.js");
 const userRouter = express.Router();
 
@@ -105,10 +106,10 @@ userRouter.get('/customer/:id', getCustomer);
  *         201:
  *           description: 상품 등록 성공
  */
-userRouter.post('/join', postUser);
+userRouter.post('/join', uploadProfile.single('img'), postUser);
 /**
  * @swagger
- *  /user/delete/{userId}}:
+ *  /user/{userId}}:
  *     delete:
  *       tags:
  *         - 유저
@@ -124,10 +125,10 @@ userRouter.post('/join', postUser);
  *         201:
  *           description: 상품 삭제 성공
  */
-userRouter.delete('/delete/:id', deleteUser);
+userRouter.delete('/:id', deleteUser);
 /**
  * @swagger
- *  /user/patch/{item_id}:
+ *  /user/{item_id}:
  *     patch:
  *       tags:
  *         - 유저
@@ -160,6 +161,6 @@ userRouter.delete('/delete/:id', deleteUser);
  *         200:
  *           description: 유저 수정 성공
  */
-userRouter.patch('/patch/:id', updateUser);
+userRouter.patch('/:id', updateUser);
 
 module.exports = userRouter;
