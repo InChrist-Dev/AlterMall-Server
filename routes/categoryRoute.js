@@ -1,6 +1,21 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const {getCategory, postCategory, deleteCategory, updateCategory} = require("../controllers/category.js");
 const categoryRouter = express.Router();
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, cb) {
+            cb(null, './upload/itemImgs');
+        },
+        filename(req, file, cb) {
+            const ext = path.extname(file.originalname);
+            cb(null, Date.now() + ext);
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 /**
  * @swagger
@@ -46,7 +61,7 @@ const categoryRouter = express.Router();
 categoryRouter.get('/:id?', getCategory);
 /**
  * @swagger
- *  /category/post:
+ *  /category:
  *     post:
  *       tags:
  *         - 상품
@@ -79,10 +94,10 @@ categoryRouter.get('/:id?', getCategory);
  *         201:
  *           description: 상품 등록 성공
  */
-categoryRouter.post('/post/', postCategory);
+categoryRouter.post('/', upload.single('img'), postCategory);
 /**
  * @swagger
- *  /category/post/delete/{item_id}:
+ *  /category/{item_id}:
  *     delete:
  *       tags:
  *         - 상품
@@ -98,10 +113,10 @@ categoryRouter.post('/post/', postCategory);
  *         201:
  *           description: 상품 삭제 성공
  */
-categoryRouter.delete('/delete/:id?', deleteCategory);
+categoryRouter.delete('/:id?', deleteCategory);
 /**
  * @swagger
- *  /category/patch/{item_id}:
+ *  /category/{item_id}:
  *     patch:
  *       tags:
  *         - 상품
@@ -132,6 +147,6 @@ categoryRouter.delete('/delete/:id?', deleteCategory);
  *         200:
  *           description: 상품 수정 성공
  */
-categoryRouter.patch('/patch/:id?', updateCategory);
+categoryRouter.patch('/:id?', updateCategory);
 
 module.exports = categoryRouter;

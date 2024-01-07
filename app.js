@@ -5,19 +5,21 @@ const morgan = require('morgan');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const fs = require('fs');
 const { swaggerUi, specs } = require("./swagger/swagger")
 
 
 dotenv.config();
 const pageRouter = require('./routes/mainroute.js');
 const { sequelize } = require('./models');
+const multer = require('multer');
 
 const app = express(); 
 
-app.use('/item', express.static(path.join(__dirname, 'upload/itemImgs')));
-app.use('/profile', express.static(path.join(__dirname, 'upload/profiles')));
+app.use('/upload', express.static(path.join(__dirname, 'upload/')));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
 app.set('port', process.env.PORT || 8000);
 
 sequelize.sync({alter:true, force: false })
@@ -48,6 +50,8 @@ app.use(session({
 }));
 
 app.use('/', pageRouter);
+
+
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

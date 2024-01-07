@@ -31,7 +31,8 @@ exports.getCategory = async (req, res) => {
                 }
             });
 
-            res.send(result);
+            // res.send(result);
+            res.send(result)
         } catch (error) {
             console.error('Error fetching item:', error);
             res.status(500).send('Fail to get Item');
@@ -76,16 +77,14 @@ exports.postCategory = async(req, res) => {
     if(!seller){
         return res.status(404).json({ exists: false, message: 'Seller Not Found' });
     }
-    const filePath = path.join(__dirname, '../upload');
 
-    
     Items.create({
         item_name: req.body.item_name,
         price: req.body.price,
         seller_id: req.body.seller_id,
         stock: req.body.stock,
         isSelling: true,
-        img: req.body.img,
+        img: req.file.path,
     })
         .then((createdItem) => {
             res.status(201).json(createdItem);
