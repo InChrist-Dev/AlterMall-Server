@@ -29,7 +29,7 @@ customerRouter.get('/cart/:id', getCart);
 // customerRouter.get('/wish/:id');
 /**
  * @swagger
- *  /customer/cart/post:
+ *  /customer/cart:
  *     post:
  *       tags:
  *         - 구매자
@@ -58,11 +58,11 @@ customerRouter.get('/cart/:id', getCart);
  *         201:
  *           description: 상품 등록 성공
  */
-customerRouter.post('/cart/post', postCart);
+customerRouter.post('/cart', postCart);
 // customerRouter.post('/wish/post',);
 /**
  * @swagger
- *  /customer/user/{item_id}:
+ *  /customer/cart/{item_id}:
  *     patch:
  *       tags:
  *         - 구매자
@@ -83,11 +83,11 @@ customerRouter.post('/cart/post', postCart);
  *         200:
  *           description: 유저 수정 성공
  */
-customerRouter.patch('/cart/patch/:id', updateCart);
+customerRouter.patch('/cart/:id', updateCart);
 // customerRouter.patch('/wish/patch/:id');
 /**
  * @swagger
- *  /customer/cart/delete/{orderId}}:
+ *  /customer/cart/{orderId}}:
  *     delete:
  *       tags:
  *         - 구매자
@@ -103,7 +103,7 @@ customerRouter.patch('/cart/patch/:id', updateCart);
  *         201:
  *           description: 상품 삭제 성공
  */
-customerRouter.delete('/cart/delete/:id', deleteCart);
+customerRouter.delete('/cart/:id', deleteCart);
 // customerRouter.delete('/wish/delete/:id');
 //-장바구니 찜//
 

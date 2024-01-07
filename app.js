@@ -6,6 +6,7 @@ const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 const checkDirectory = require('./middleware/directoryMiddleware.js')
+const basicAuthMiddleware = require('./middleware/authMiddleware.js');
 const { swaggerUi, specs } = require("./swagger/swagger")
 
 
@@ -19,9 +20,9 @@ const app = express();
 
 app.use('/upload', express.static(path.join(__dirname, 'upload/')));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", basicAuthMiddleware, swaggerUi.serve, swaggerUi.setup(specs));
 
-app.set('port', process.env.PORT || 8000);
+app.set('port', process.env.PORT || 2000);
 
 sequelize.sync({alter:true, force: false })
     .then(() => {
