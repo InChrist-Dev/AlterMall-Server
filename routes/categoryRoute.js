@@ -1,6 +1,7 @@
 const express = require('express');
 const { uploadItem } = require('../config/multerConfig.js');
 const { getCategory, postCategory, deleteCategory, updateCategory } = require("../controllers/category.js");
+const checkDirectory = require('../config/directoryConfig.js');
 const categoryRouter = express.Router();
 
 /**

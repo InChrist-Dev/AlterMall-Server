@@ -5,12 +5,15 @@ const morgan = require('morgan');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const checkDirectory = require('./config/directoryConfig.js')
 const { swaggerUi, specs } = require("./swagger/swagger")
 
 
 dotenv.config();
 const pageRouter = require('./routes/mainroute.js');
 const { sequelize } = require('./models');
+
+checkDirectory();
 
 const app = express(); 
 
