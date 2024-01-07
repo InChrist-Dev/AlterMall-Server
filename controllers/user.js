@@ -87,11 +87,16 @@ exports.getCustomer = async (req, res) => {
  * @params {JSON} req.body - 등록 할 계정 정보
  */
 exports.postUser = async(req, res) => {
+    var imagePath = "";
+
+    if(req.file)
+        imagePath = req.file.path
+
     User.create({
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
-        profile: req.body.profile,
+        profile: imagePath,
         position: req.body.position
     })
         .then((createdItem) => {
