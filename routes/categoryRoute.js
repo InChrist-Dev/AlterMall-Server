@@ -133,6 +133,6 @@ categoryRouter.delete('/:id?', deleteCategory);
  *         200:
  *           description: 상품 수정 성공
  */
-categoryRouter.patch('/:id?', updateCategory);
+categoryRouter.patch('/:id?', uploadItem.single('img'), updateCategory);
 
 module.exports = categoryRouter;

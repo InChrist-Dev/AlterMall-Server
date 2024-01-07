@@ -127,6 +127,11 @@ exports.postUser = async(req, res) => {
  */
 exports.updateUser = async(req, res) => {
     try{
+        var imagePath = null;
+
+        if (req.file)
+            imagePath = req.file.path;
+
         const updateUser = await User.findOne({
         where: {
             id: req.params.id || null,
@@ -142,7 +147,7 @@ exports.updateUser = async(req, res) => {
                 name: req.body.name || updateUser.name,
                 email: req.body.email || updateUser.email,
                 phone: req.body.phone || updateUser.phone,
-                profile: req.body.profile || updateUser.profile,
+                profile: imagePath || updateUser.profile,
             }, {
                 where: { id: req.params.id},
             })

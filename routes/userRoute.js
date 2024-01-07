@@ -161,6 +161,6 @@ userRouter.delete('/:id', deleteUser);
  *         200:
  *           description: 유저 수정 성공
  */
-userRouter.patch('/:id', updateUser);
+userRouter.patch('/:id', uploadProfile.single('img'), updateUser);
 
 module.exports = userRouter;

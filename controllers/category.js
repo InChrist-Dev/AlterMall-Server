@@ -127,6 +127,11 @@ exports.deleteCategory = async(req, res) => {
  * @returns 
  */
 exports.updateCategory = async(req, res) => {
+
+    var imagePath = null;
+    if(req.file)
+        imagePath = req.file.path;
+
     const updateItem = await Items.findOne({
         where: {
             item_id: req.params.id || null,
@@ -142,7 +147,7 @@ exports.updateCategory = async(req, res) => {
         price: req.body.price || updateItem.price,
         isSelling: req.body.isSelling ?? updateItem.isSelling ?? false,
         stock: req.body.stock || updateItem.stock,
-        img: req.body.img || updateItem.img
+        img: imagePath || updateItem.img
     }, {
         where: { item_id: req.params.id || null },
     })
