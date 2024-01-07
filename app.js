@@ -12,27 +12,10 @@ dotenv.config();
 const pageRouter = require('./routes/mainroute.js');
 const { sequelize } = require('./models');
 
-const app = express();
+const app = express(); 
 
-app.use('/static', express.static(path.join(__dirname, 'upload')));
-
-app.use("/", (req, res) => {
-    res.status(200).send(
-    `
-    <h1>이건 지갑이에요</h1>
-    </p>
-    <h2>아나 이거 만든다고 시간을 얼마나 쓴거야</h2>
-    </p>
-    <img src="/static/imgs/wallet.jpeg" width="180", height="180" ">
-    </p>
-    <h1>이건 딸기에요<h1/>
-    </p>
-    <h2>맛있겠다!!<h2/>
-    </p>
-    <img src="/static/imgs/berry.jpeg" width="180", height="180" ">
-    `
-    )
-});
+app.use('/item', express.static(path.join(__dirname, 'upload/itemImgs')));
+app.use('/profile', express.static(path.join(__dirname, 'upload/profiles')));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
 app.set('port', process.env.PORT || 8000);
