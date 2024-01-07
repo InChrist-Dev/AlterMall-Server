@@ -1,7 +1,6 @@
 const express = require('express');
-const { uploadProfile } = require('../config/multerConfig.js')
+const { uploadProfile } = require('../middleware/multerMiddleware.js')
 const { getUser, getSeller, getCustomer, postUser, deleteUser, updateUser } = require("../controllers/user.js");
-const checkDirectory = require('../config/directoryConfig.js');
 const userRouter = express.Router();
 
 /**

@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const { Seller } = require('../models');
 const { Customer} = require('../models');
+const deleteFile = require('../middleware/fileMiddleware')
 
 /** GET
  * 계정의 id를 입력하면 유저 공통 정보를 전송한다.
@@ -127,20 +128,22 @@ exports.postUser = async(req, res) => {
  */
 exports.updateUser = async(req, res) => {
     try{
-        var imagePath = null;
-
-        if (req.file)
-            imagePath = req.file.path;
-
         const updateUser = await User.findOne({
-        where: {
-            id: req.params.id || null,
-        }
+            where: {
+                id: req.params.id || null,
+            }
         })
-
+        
         if(!updateUser){
             return res.status(404).json({ exists: false, message: 'User Not Found' });
         };
+        
+        var imagePath = null;
+
+        if (req.file){
+            imagePath = req.file.path;
+            deleteFile(updateUser.profile)
+        }
 
         try{
             await User.update({
@@ -197,6 +200,8 @@ exports.deleteUser = async(req, res) => {
         if(!deleteUser){
             return res.status(404).json({ exists: false, message: 'User Not Found' });
         }
+
+        deleteFile(deleteUser.profile)
 
         try{
             await User.destroy({

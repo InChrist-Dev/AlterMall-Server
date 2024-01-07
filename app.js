@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
-const checkDirectory = require('./config/directoryConfig.js')
+const checkDirectory = require('./middleware/directoryMiddleware.js')
 const { swaggerUi, specs } = require("./swagger/swagger")
 
 
@@ -51,8 +51,6 @@ app.use(session({
 }));
 
 app.use('/', pageRouter);
-
-
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -1,5 +1,6 @@
 const { Items } = require('../models');
 const { Seller } = require('../models');
+const deleteFile = require('../middleware/fileMiddleware');
 
 /**
  * 페이지네이션 파라미터
@@ -70,7 +71,7 @@ exports.postCategory = async(req, res) => {
     var imagePath = ""
 
     if(req.file)
-        imagePath = req.file
+        imagePath = req.file.path
 
     Items.create({
         item_name: req.body.item_name,
@@ -104,6 +105,8 @@ exports.deleteCategory = async(req, res) => {
     if(!deleteItem){
         return res.status(404).json({ exists: false, message: 'Item Not Found' });
     }
+
+    deleteFile(deleteItem.img);
     
     Items.destroy({
         where: { item_id: req.params.id || null },
@@ -128,19 +131,23 @@ exports.deleteCategory = async(req, res) => {
  */
 exports.updateCategory = async(req, res) => {
 
-    var imagePath = null;
-    if(req.file)
-        imagePath = req.file.path;
-
+    
     const updateItem = await Items.findOne({
         where: {
             item_id: req.params.id || null,
         }
     });
-
+    
     if(!updateItem){
         return res.status(404).json({ exists: false, message: 'Item Not Found' });
     };
+    
+    var imagePath = null;
+    
+    if(req.file){
+        imagePath = req.file.path;
+        deleteFile(updateItem.img)
+    }
 
     Items.update({
         item_name: req.body.item_name || updateItem.item_name,
